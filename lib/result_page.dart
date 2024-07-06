@@ -1,8 +1,10 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:translator/translator.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'webview_page.dart';
 
 const Color primaryColor = Colors.teal;
 const Color textColor = Colors.black;
@@ -28,6 +30,9 @@ class _ResultPageState extends State<ResultPage> {
   void initState() {
     super.initState();
     _jsonResponse = jsonDecode(widget.result);
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
   }
 
   Future<String> _translateText(String text, String targetLanguage) async {
@@ -43,13 +48,18 @@ class _ResultPageState extends State<ResultPage> {
     try {
       final String targetLanguage = _isEnglish ? 'ar' : 'en';
 
-      // Translate local JSON fields
-      _jsonResponse['disease']['name'] = await _translateText(_jsonResponse['disease']['name'], targetLanguage);
-      _jsonResponse['disease']['description'] = await _translateText(_jsonResponse['disease']['description'], targetLanguage);
-      _jsonResponse['disease']['conditions'] = await _translateText(_jsonResponse['disease']['conditions'], targetLanguage);
-      _jsonResponse['disease']['chemical_treatment'] = await _translateText(_jsonResponse['disease']['chemical_treatment'], targetLanguage);
-      _jsonResponse['disease']['mechanical_treatment'] = await _translateText(_jsonResponse['disease']['mechanical_treatment'], targetLanguage);
-      _jsonResponse['disease']['specific_chemical_treatments'] = await _translateText(_jsonResponse['disease']['specific_chemical_treatments'], targetLanguage);
+      _jsonResponse['disease']['name'] =
+          await _translateText(_jsonResponse['disease']['name'], targetLanguage);
+      _jsonResponse['disease']['description'] =
+          await _translateText(_jsonResponse['disease']['description'], targetLanguage);
+      _jsonResponse['disease']['conditions'] =
+          await _translateText(_jsonResponse['disease']['conditions'], targetLanguage);
+      _jsonResponse['disease']['mechanical_treatment'] =
+          await _translateText(_jsonResponse['disease']['mechanical_treatment'], targetLanguage);
+      _jsonResponse['disease']['chemical_treatment'] =
+          await _translateText(_jsonResponse['disease']['chemical_treatment'], targetLanguage);
+      _jsonResponse['disease']['source'] =
+          await _translateText(_jsonResponse['disease']['source'], targetLanguage);
 
       setState(() {
         _isEnglish = !_isEnglish;
@@ -74,7 +84,7 @@ class _ResultPageState extends State<ResultPage> {
     final String conditions = disease['conditions'] ?? 'No conditions specified';
     final String chemicalTreatment = disease['chemical_treatment'] ?? 'No chemical treatment specified';
     final String mechanicalTreatment = disease['mechanical_treatment'] ?? 'No mechanical treatment specified';
-    final String specificChemicalTreatments = disease['specific_chemical_treatments'] ?? 'No specific chemical treatments specified';
+    final String source = disease['source'] ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -100,11 +110,14 @@ class _ResultPageState extends State<ResultPage> {
                       child: _buildUploadedImage(),
                     ),
                     SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        name,
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: diseaseNameColor),
-                        textAlign: _isEnglish ? TextAlign.left : TextAlign.right,
+                    GestureDetector(
+                      onTap: () => _launchURL(source),
+                      child: Center(
+                        child: Text(
+                          name,
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: diseaseNameColor, decoration: TextDecoration.underline),
+                          textAlign: _isEnglish ? TextAlign.left : TextAlign.right,
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -117,9 +130,8 @@ class _ResultPageState extends State<ResultPage> {
                     _buildInfoCard(_isEnglish ? 'Confidence' : 'الثقة', confidence.toStringAsFixed(2), TextAlign.center),
                     _buildInfoCard(_isEnglish ? 'Description' : 'الوصف', description, _isEnglish ? TextAlign.left : TextAlign.right),
                     _buildInfoCard(_isEnglish ? 'Conditions' : 'الظروف', conditions, _isEnglish ? TextAlign.left : TextAlign.right),
-                    _buildInfoCard(_isEnglish ? 'Chemical Treatment' : 'العلاج الكيميائي', chemicalTreatment, _isEnglish ? TextAlign.left : TextAlign.right),
                     _buildInfoCard(_isEnglish ? 'Mechanical Treatment' : 'العلاج الميكانيكي', mechanicalTreatment, _isEnglish ? TextAlign.left : TextAlign.right),
-                    _buildInfoCard(_isEnglish ? 'Specific Chemical Treatments' : 'العلاجات الكيميائية المحددة', specificChemicalTreatments, _isEnglish ? TextAlign.left : TextAlign.right),
+                    _buildInfoCard(_isEnglish ? 'Chemical Treatment' : 'العلاج الكيميائي', chemicalTreatment, _isEnglish ? TextAlign.left : TextAlign.right),
                   ],
                 ),
               ),
@@ -174,6 +186,15 @@ class _ResultPageState extends State<ResultPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _launchURL(String url) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewPage(url: url),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'webview_page.dart';
 
 const Color primaryColor = Colors.teal;
 const Color textColor = Colors.black;
@@ -49,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
       _jsonResponse['disease']['conditions'] = await _translateText(_jsonResponse['disease']['conditions'], targetLanguage);
       _jsonResponse['disease']['chemical_treatment'] = await _translateText(_jsonResponse['disease']['chemical_treatment'], targetLanguage);
       _jsonResponse['disease']['mechanical_treatment'] = await _translateText(_jsonResponse['disease']['mechanical_treatment'], targetLanguage);
-      _jsonResponse['disease']['specific_chemical_treatments'] = await _translateText(_jsonResponse['disease']['specific_chemical_treatments'], targetLanguage);
+      _jsonResponse['disease']['source'] = await _translateText(_jsonResponse['disease']['source'], targetLanguage);
 
       setState(() {
         _isEnglish = !_isEnglish;
@@ -74,7 +76,7 @@ class _DetailPageState extends State<DetailPage> {
     final String conditions = disease['conditions'] ?? 'No conditions specified';
     final String chemicalTreatment = disease['chemical_treatment'] ?? 'No chemical treatment specified';
     final String mechanicalTreatment = disease['mechanical_treatment'] ?? 'No mechanical treatment specified';
-    final String specificChemicalTreatments = disease['specific_chemical_treatments'] ?? 'No specific chemical treatments specified';
+    final String source = disease['source'] ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -100,11 +102,14 @@ class _DetailPageState extends State<DetailPage> {
                       child: _buildUploadedImage(),
                     ),
                     SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        name,
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: diseaseNameColor),
-                        textAlign: _isEnglish ? TextAlign.left : TextAlign.right,
+                    GestureDetector(
+                      onTap: () => _launchURL(source),
+                      child: Center(
+                        child: Text(
+                          name,
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: diseaseNameColor, decoration: TextDecoration.underline),
+                          textAlign: _isEnglish ? TextAlign.left : TextAlign.right,
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -119,7 +124,6 @@ class _DetailPageState extends State<DetailPage> {
                     _buildInfoCard(_isEnglish ? 'Conditions' : 'الظروف', conditions, _isEnglish ? TextAlign.left : TextAlign.right),
                     _buildInfoCard(_isEnglish ? 'Chemical Treatment' : 'العلاج الكيميائي', chemicalTreatment, _isEnglish ? TextAlign.left : TextAlign.right),
                     _buildInfoCard(_isEnglish ? 'Mechanical Treatment' : 'العلاج الميكانيكي', mechanicalTreatment, _isEnglish ? TextAlign.left : TextAlign.right),
-                    _buildInfoCard(_isEnglish ? 'Specific Chemical Treatments' : 'العلاجات الكيميائية المحددة', specificChemicalTreatments, _isEnglish ? TextAlign.left : TextAlign.right),
                   ],
                 ),
               ),
@@ -174,6 +178,20 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _launchURL(String url) async {
+    // Ensure URL has http or https scheme
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'http://$url';
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewPage(url: url),
       ),
     );
   }
