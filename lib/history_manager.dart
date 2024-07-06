@@ -33,4 +33,9 @@ class HistoryManager {
     historyStringList.add(jsonEncode(entry.toJson()));
     await prefs.setStringList(_historyKey, historyStringList);
   }
+
+  static Future<void> clearHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_historyKey);
+  }
 }

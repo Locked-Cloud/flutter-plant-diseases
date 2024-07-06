@@ -76,6 +76,14 @@ class HistoryPage extends StatelessWidget {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await HistoryManager.clearHistory();
+          (context as Element).reassemble();
+        },
+        child: Icon(Icons.delete),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 }
