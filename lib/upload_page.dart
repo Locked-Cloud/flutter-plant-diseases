@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +9,6 @@ import 'result_page.dart';
 import 'history_page.dart';
 import 'history_manager.dart';
 import 'history_entry.dart';
-import 'weather_box.dart';
 
 class UploadPage extends StatefulWidget {
   @override
@@ -23,14 +20,12 @@ class _UploadPageState extends State<UploadPage> {
   bool _isLoading = false;
   bool _isOnline = false;
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  Map<String, dynamic>? weatherData;
 
   @override
   void initState() {
     super.initState();
     _requestCameraPermission();
     _checkConnectivity();
-    _fetchWeatherData();
   }
 
   @override
@@ -52,8 +47,7 @@ class _UploadPageState extends State<UploadPage> {
       _isOnline = connectivityResult != ConnectivityResult.none;
     });
 
-    _connectivitySubscription =
-        Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       setState(() {
         _isOnline = result != ConnectivityResult.none;
       });
@@ -79,7 +73,7 @@ class _UploadPageState extends State<UploadPage> {
 
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://82.165.99.39:80/predict'), // Update to your server URL
+      Uri.parse('http://82.165.99.39:80/predict'), // Updated to localhost
     );
     request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
 
@@ -161,23 +155,6 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  Future<void> _fetchWeatherData() async {
-    try {
-      var response = await http.get(Uri.parse(
-          'https://api.weatherapi.com/v1/current.json?key=03351b36b495427ca5521602241007&q=auto:ip'));
-
-      if (response.statusCode == 200) {
-        setState(() {
-          weatherData = jsonDecode(response.body);
-        });
-      } else {
-        print('Failed to load weather data: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error fetching weather data: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,9 +183,6 @@ class _UploadPageState extends State<UploadPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (weatherData != null)
-                      WeatherBox(weatherData: weatherData!),
-                    SizedBox(height: 20),
                     _image == null
                         ? _buildPlaceholder(context)
                         : _buildImageCard(context),
@@ -248,7 +222,7 @@ class _UploadPageState extends State<UploadPage> {
           'No image selected.',
           style: TextStyle(
             fontSize: 18,
-            color: Colors.black, // Example: Use explicit color instead of TextTheme
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
       ),
