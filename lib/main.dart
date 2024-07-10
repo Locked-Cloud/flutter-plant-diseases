@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'upload_page.dart'; // Import your UploadPage widget here
+import 'welcome_page.dart'; // Import your WelcomePage widget here
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Image Upload App',
       theme: theme, // Set ThemeData created with ColorScheme
-      home: UploadPage(), // Set UploadPage as the home page
+      home: WelcomePage(), // Set WelcomePage as the home page
     );
   }
 }
