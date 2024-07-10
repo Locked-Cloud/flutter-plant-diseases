@@ -22,7 +22,8 @@ dependencies:
   url_launcher: ^6.0.0
   lottie: ^2.2.0
   connectivity_plus: ^2.3.4 # Corrected indentation
-
+  geolocator: ^7.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
