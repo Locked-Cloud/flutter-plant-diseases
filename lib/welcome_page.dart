@@ -54,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
             children: [
               // Replace with your welcome content, such as an image or logo
               Text(
-                'Welcome to Plant Disease Detection App',
+                'Welcome',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
