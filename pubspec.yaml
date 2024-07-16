@@ -31,6 +31,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/Animation - 1720496416285.json
