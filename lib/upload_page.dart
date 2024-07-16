@@ -5,10 +5,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'result_page.dart';
 import 'history_page.dart';
 import 'history_manager.dart';
 import 'history_entry.dart';
+import 'about_us_page.dart'; // Import the AboutUsPage
 
 class UploadPage extends StatefulWidget {
   @override
@@ -73,7 +75,7 @@ class _UploadPageState extends State<UploadPage> {
 
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://82.165.99.39:80/predict'), // Updated to localhost
+      Uri.parse('http://82.165.99.39:80/predict'),
     );
     request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
 
@@ -83,10 +85,6 @@ class _UploadPageState extends State<UploadPage> {
       if (response.statusCode == 200) {
         var responseBody = await response.stream.bytesToString();
 
-        // Print the response body for debugging
-        print('Response body: $responseBody');
-
-        // Save the upload history
         HistoryManager.addEntry(
           HistoryEntry(
             imagePath: _image!.path,
@@ -105,19 +103,14 @@ class _UploadPageState extends State<UploadPage> {
           ),
         );
 
-        // Clear the old upload
         setState(() {
           _image = null;
         });
       } else {
-        // Handle server error
         var responseBody = await response.stream.bytesToString();
-        print('Server error: ${response.statusCode}, response: $responseBody');
         _showErrorDialog('Server error: ${response.statusCode}\n$responseBody');
       }
     } catch (e) {
-      // Handle other errors such as network issues
-      print('Upload error: $e');
       _showErrorDialog('Upload error: $e');
     } finally {
       setState(() {
@@ -155,11 +148,20 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
+  void _viewAboutUs() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AboutUsPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload Image'),
+        title: Text('Home'),
         actions: [
           IconButton(
             icon: Icon(Icons.history),
@@ -187,18 +189,25 @@ class _UploadPageState extends State<UploadPage> {
                         ? _buildPlaceholder(context)
                         : _buildImageCard(context),
                     SizedBox(height: 20),
-                    _buildButton(
+                    _buildAnimatedButton(
                       context,
                       icon: Icons.upload_file,
                       label: 'Upload Image',
                       onPressed: () => _pickImage(ImageSource.gallery),
                     ),
                     SizedBox(height: 10),
-                    _buildButton(
+                    _buildAnimatedButton(
                       context,
                       icon: Icons.camera_alt,
                       label: 'Take Photo',
                       onPressed: () => _pickImage(ImageSource.camera),
+                    ),
+                    SizedBox(height: 10),
+                    _buildAnimatedButton(
+                      context,
+                      icon: Icons.info,
+                      label: 'About Us',
+                      onPressed: _viewAboutUs,
                     ),
                     SizedBox(height: 20),
                     _buildConnectivityStatus(),
@@ -247,7 +256,7 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  Widget _buildButton(BuildContext context,
+  Widget _buildAnimatedButton(BuildContext context,
       {required IconData icon,
       required String label,
       required VoidCallback onPressed}) {
@@ -263,7 +272,7 @@ class _UploadPageState extends State<UploadPage> {
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
         textStyle: TextStyle(fontSize: 16),
       ),
-    );
+    ).animate().slideX(duration: 600.ms);
   }
 
   Widget _buildConnectivityStatus() {

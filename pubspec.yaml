@@ -23,7 +23,10 @@ dependencies:
   lottie: ^2.2.0
   connectivity_plus: ^2.3.4 # Corrected indentation
   geolocator: ^7.0.3
-  
+  cached_network_image: ^3.2.1
+  animated_text_kit: ^4.2.1
+  flutter_animate: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,3 +34,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/Animation - 1720496416285.json
