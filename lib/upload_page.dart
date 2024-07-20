@@ -10,7 +10,8 @@ import 'result_page.dart';
 import 'history_page.dart';
 import 'history_manager.dart';
 import 'history_entry.dart';
-import 'about_us_page.dart'; // Import the AboutUsPage
+import 'about_us_page.dart'; 
+import 'library_page.dart'; // Import the LibraryPage
 
 class UploadPage extends StatefulWidget {
   @override
@@ -157,6 +158,15 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
+  void _viewLibrary() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LibraryPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,6 +218,13 @@ class _UploadPageState extends State<UploadPage> {
                       icon: Icons.info,
                       label: 'About Us',
                       onPressed: _viewAboutUs,
+                    ),
+                    SizedBox(height: 10),
+                    _buildAnimatedButton(
+                      context,
+                      icon: Icons.library_books,
+                      label: 'Library',
+                      onPressed: _viewLibrary,
                     ),
                     SizedBox(height: 20),
                     _buildConnectivityStatus(),
