@@ -63,3 +63,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     // Add other dependencies as needed
 }
+
+apply plugin: 'com.google.gms.google-services'

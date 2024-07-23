@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974428604429",
+    "project_id": "json-file-data",
+    "storage_bucket": "json-file-data.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974428604429:android:e0821d067e168dbec62d44",
+        "android_client_info": {
+          "package_name": "com.example.image_upload_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQaYEnl4pj7WKSciNDNvlntlbfsb5lRKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

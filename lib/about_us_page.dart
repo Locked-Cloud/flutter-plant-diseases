@@ -25,7 +25,7 @@ class AboutUsPage extends StatelessWidget {
       name: 'Abdelrahman Sheneshen',
       role: 'Computer Engineer',
       imageUrl: 'https://lh6.googleusercontent.com/B-bJXsEZJ1al8euP1tqQlF-G6lEJm8FV4k1FllK4SLocD_V7MJaNqJlP7gduMGrJIuD_thBLIYXWY0vfcPCJFrwmGbRj0XgLL7JUFicNlGIj9J0fHqa4Vo7cgYgS6sxaiw=w1280',
-      url: 'https://static.vecteezy.com/system/resources/thumbnails/000/429/651/small/1312.i011.022.S.i011.c10.COMING_SOON.jpg',
+      url: 'https://github.com/AbdulrahmanAbdullah0',
     ),
   ];
 
