@@ -12,19 +12,19 @@ class AboutUsPage extends StatelessWidget {
     TeamMember(
       name: 'Ibrahim Ahmed',
       role: 'Computer Engineer',
-      imageUrl: 'https://lh4.googleusercontent.com/VN_nUg4W-v_t7mb2aoNrawogsQB7cTfT4A9z6JoQ5oL7rKbRLfmOUicpJrKrsxdrznTl7gDDLzudnVqYBJ066zpxCj0b5c4FSDg4WTjWJ_lKAQpwzGOPywVuiTFXvgtiWQ=w1280',
+      imageUrl: 'https://lh3.googleusercontent.com/3GRh44b-RJwbJiuLo4fojdUXzNcEio0mK3f6Ur42HHxtOIXjSSseXduPhew5PzhJzW49htovGyXPTUqMYvfRVoS9mYGTZ2JElC0rQPNYWdob1Gs12Lvtll04OyhBbXc1Jg=w1280',
       url: 'https://github.com/Locked-Cloud',
     ),
     TeamMember(
       name: 'Ezz El Dlen Ahmed',
       role: 'Computer Engineer',
-      imageUrl: 'https://lh5.googleusercontent.com/Mw8kvBWKej6iDR6AcW336_32q0EsWrf249GAhgNhdf561p8wZiPlCB6772-C1hLgoVN6fn12fuOdkk6jFf1T7uvkkL44mN5BraDYHJm4gfLXmWJiTbcEMoJTQeuvOFOAOw=w1280',
+      imageUrl: 'https://lh4.googleusercontent.com/yXtBTY25MY7rUhI1zGeW1jCJob03yAYKmGIjftkMahqeT3a2pYsjSr7l6nKlibfNVH_KK74cIDAflWt9vyRTK_MObHTY8bDXC4-oDGn422bmvCeqs-_lRsCQPF_ivCJ0uA=w1280',
       url: 'https://github.com/decoezz',
     ),
     TeamMember(
-      name: 'Abdelrahman Sheneshen',
+      name: 'Abdelrahman Abdallah',
       role: 'Computer Engineer',
-      imageUrl: 'https://lh6.googleusercontent.com/B-bJXsEZJ1al8euP1tqQlF-G6lEJm8FV4k1FllK4SLocD_V7MJaNqJlP7gduMGrJIuD_thBLIYXWY0vfcPCJFrwmGbRj0XgLL7JUFicNlGIj9J0fHqa4Vo7cgYgS6sxaiw=w1280',
+      imageUrl: 'https://lh5.googleusercontent.com/pDE6VpWiDNpsiVf07Fcsq9tNbezSsaQ-DVwuC0JnOSxHOieQ7iTJW5cTe_WYw-imQy4OuobgTtTa1Y73L9qw0al2-We037iWvH8wnO0C4ywUfp2QK2BmTgYG4k6ATY7JWw=w1280',
       url: 'https://github.com/AbdulrahmanAbdullah0',
     ),
   ];
@@ -32,7 +32,7 @@ class AboutUsPage extends StatelessWidget {
   final TeamMember projectManager = TeamMember(
     name: 'Eng.Ahmed Thabet',
     role: 'Project Manager',
-    imageUrl: 'https://lh3.googleusercontent.com/VNuWlLGLSrxaNiMxXpiyeFVkCPAdv6eu24lzci_LunEjnbo7tl9x7Q_qleyha0wo6i_nReoUApH0XM0cV-407VBrol79-YIv67NYmxXYYLPm-XPovS7B9m-rK012PCyBvg=w1280',
+    imageUrl: 'https://lh6.googleusercontent.com/IjGWhy1N4SA9iDXDr41kmvWVlLmKhh0O1zSAPB4k6y-gDlK_x8VbPkmO7XcSufPyC7ADKyOb5ydbd1y1q2MZMCTUhWHtr3V_Ii55lc8eEfXxq3IjSudIDuI9HnzjrHn6DA=w1280',
     url: 'https://www.linkedin.com/in/ahmed-thabet-ahmed-907719109/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
   );
 
